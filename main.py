@@ -10,15 +10,15 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Load env
 load_dotenv()
-client = OpenAI(api_key=os.getenv("AIPROXY_TOKEN") or os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("AIPipe_TOKEN") or os.getenv("OPENAI_API_KEY"))
 
 # Load npz files
-text_data = np.load("C:/Users/DELL/embed_chunks.npz", allow_pickle=True)
+text_data = np.load("embed_chunks.npz", allow_pickle=True)
 texts = text_data["texts"]
 text_embeddings = text_data["embeddings"]
 text_metadata = text_data["metadatas"]
 
-img_data = np.load("C:/Users/DELL/image_emb.npz", allow_pickle=True)
+img_data = np.load("image_emb.npz", allow_pickle=True)
 img_urls = img_data["urls"]
 img_embeddings = img_data["embeddings"]
 img_chunk_idx = img_data["chunk_indices"]
@@ -45,7 +45,7 @@ def get_text_embedding(text):
 def describe_image(base64_image):
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="openai/gpt-4.1-nano",
             messages=[{
                 "role": "user",
                 "content": [
@@ -106,7 +106,7 @@ async def qa_endpoint(req: QARequest):
         Answer:"""
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="openai/gpt-4.1-nano",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2
         )
