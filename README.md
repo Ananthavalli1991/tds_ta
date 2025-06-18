@@ -37,15 +37,19 @@ tds_virtual_ta/
 ### 1. Install dependencies
 ```bash
 pip install -r requirements.txt
+
 ###**2. Load .npz files into LanceDB**
 python store_embeddings.py
+
 ###**3. Run the API locally**
 uvicorn main:app --reload
+
 ###**4.Example request (JSON):**
 {
   "question": "Should I use gpt-4o-mini which AI proxy supports, or gpt3.5 turbo?",
   "image": "BASE64_ENCODED_IMAGE_STRING"
 }
+
 ###**Example response:**
 {
   "answer": "You must use gpt-3.5-turbo...",
