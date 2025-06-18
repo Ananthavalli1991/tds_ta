@@ -135,7 +135,7 @@ async def qa_endpoint(req: QARequest):
 
         answer = response.choices[0].message.content.strip()
         links = extract_links(results)
-        })
+      
 
         return JSONResponse(content={"answer": answer, "links": links})
 
