@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Load env
 load_dotenv()
-client = OpenAI(api_key=os.getenv("AIPIPE_TOKEN") or os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("AIPROXY_TOKEN") or os.getenv("OPENAI_API_KEY"))
 
 # Load npz files
 text_data = np.load("embed_chunks.npz", allow_pickle=True)
@@ -45,7 +45,7 @@ def get_text_embedding(text):
 def describe_image(base64_image):
     try:
         response = client.chat.completions.create(
-            model="openai/gpt-4.1-nano",
+            model="gpt-4o-mini",
             messages=[{
                 "role": "user",
                 "content": [
@@ -106,7 +106,7 @@ async def qa_endpoint(req: QARequest):
         Answer:"""
 
         response = client.chat.completions.create(
-            model="openai/gpt-4.1-nano",
+            model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2
         )
