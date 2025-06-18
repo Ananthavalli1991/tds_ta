@@ -85,6 +85,21 @@ def search_similar(query_vector, k=5):
     sims = cosine_similarity([query_vector], all_embeddings)[0]
     top_k_idx = sims.argsort()[-k:][::-1]
     return [{"content": all_contents[i], "meta": all_metadata[i], "score": sims[i]} for i in top_k_idx]
+def extract_links(results):
+    links = []
+    for r in results:
+        meta = r.get("meta", {})
+        url = meta.get("url") or meta.get("source")
+        title = meta.get("title") or r.get("content", "")[:80]
+        
+        if url and "iitm.ac.in" in url:  # ✅ only accept course/discourse links
+            links.append({
+                "url": url,
+                "text": title.strip()
+            })
+    
+    # ✅ return only top 3 relevant links
+    return links[:3]
 
 @app.post("/api/")
 async def qa_endpoint(req: QARequest):
@@ -103,14 +118,14 @@ async def qa_endpoint(req: QARequest):
         results = search_similar(combined_emb)
 
         context = "\n\n".join([r["content"] for r in results])
-        prompt = f"""You are a helpful assistant for the TDS course. Use the context below to answer the question.
-
+        prompt = f"""You are a helpful assistant for the TDS course. Use the context below to answer the question clearly and concisely.
+        If the answer is unknown, say so. Do not make up URLs or facts.
         Question: {req.question}
 
         Context:
         {context}
-
-        Answer:"""
+        Return only an answer in plain text. Do not return JSON or markdown.
+           """
 
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -119,13 +134,8 @@ async def qa_endpoint(req: QARequest):
         )
 
         answer = response.choices[0].message.content.strip()
-        links = []
-        for r in results:
-            if "url" in r["meta"]:
-                links.append({
-                    "url": r["meta"]["url"],
-                    "text": r["content"][:80]
-                })
+        links = extract_links(results)
+        })
 
         return JSONResponse(content={"answer": answer, "links": links})
 
