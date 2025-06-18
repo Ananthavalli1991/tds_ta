@@ -10,3 +10,5 @@ Pillow
 fastapi
 uvicorn
 numpy
+scikit-learn
+
