@@ -7,6 +7,7 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 from sklearn.metrics.pairwise import cosine_similarity
+from fastapi.middleware.cors import CORSMiddleware
 
 # Load env
 load_dotenv()
@@ -30,7 +31,12 @@ all_metadata = list(text_metadata) + [{"url": u} for u in img_urls]
 
 # FastAPI
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_methods=["*"],  # Allow all HTTP methods (POST, GET, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
 class QARequest(BaseModel):
     question: str
     image: str = None
@@ -82,6 +88,7 @@ def search_similar(query_vector, k=5):
 
 @app.post("/api/")
 async def qa_endpoint(req: QARequest):
+    
     try:
         text_emb = get_text_embedding(req.question)
         combined_emb = np.array(text_emb)
@@ -124,3 +131,4 @@ async def qa_endpoint(req: QARequest):
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+    
