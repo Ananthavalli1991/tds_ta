@@ -2,13 +2,13 @@ import numpy as np
 import lancedb
 
 # Load text data
-text_data = np.load("c:/Users/DELL/embed_chunks.npz", allow_pickle=True)
+text_data = np.load("embed_chunks.npz", allow_pickle=True)
 texts = text_data["texts"]
 text_embeddings = text_data["embeddings"]
 text_metadata = text_data["metadatas"]
 
 # Load image data
-img_data = np.load("c:/Users/DELL/image_emb.npz", allow_pickle=True)
+img_data = np.load("image_emb.npz", allow_pickle=True)
 img_urls = img_data["urls"]
 img_embeddings = img_data["embeddings"]
 img_chunk_idx = img_data["chunk_indices"]
