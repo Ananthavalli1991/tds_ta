@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 # Load env
 load_dotenv()
-client = OpenAI(api_key=os.getenv("AIPROXY_TOKEN") or os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=os.getenv("AIPROXY_TOKEN") or os.getenv("OPENAI_API_KEY"),base_url="https://api.aiproxy.io/v1")
 
 # Load npz files
 text_data = np.load("embed_chunks.npz", allow_pickle=True)
