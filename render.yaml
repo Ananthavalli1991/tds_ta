@@ -1,12 +1,12 @@
 services:
   - type: web
-    name: tds-virtual-ta-api
+    name: tds_ta
     env: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python lance_db_store.py
     startCommand: uvicorn main:app --host=0.0.0.0 --port=10000
     envVars:
-      - key: AIPipe_TOKEN
-      -value: ${AIPipe_TOKEN}
+      - key: AIPIPE_TOKEN
+      -value: ${AIPIPE_TOKEN}
     plan: free
     autoDeploy: true
     region: oregon
