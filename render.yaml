@@ -5,8 +5,8 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host=0.0.0.0 --port=10000
     envVars:
-      - key: AIPROXY_TOKEN
-      -value: ${AIPROXY_TOKEN}
+      - key: AIPipe_TOKEN
+      -value: ${AIPipe_TOKEN}
     plan: free
     autoDeploy: true
     region: oregon
