@@ -1,0 +1,38 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# LanceDB vector storage
+db/
+*.lance
+
+# Temporary or backup files
+*.bak
+*.swp
+*.tmp
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# VS Code/IDE files
+.vscode/
+.idea/
+
+# Large data files (if tracked outside GitHub)
+embed_chunks.npz
+img_emb.npz
