@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+openai
+lancedb
+requests
+python-dotenv
+torch
+transformers
+Pillow
+fastapi
+uvicorn
+numpy
