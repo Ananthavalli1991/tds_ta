@@ -118,13 +118,13 @@ async def qa_endpoint(req: QARequest):
         results = search_similar(combined_emb)
 
         context = "\n\n".join([r["content"] for r in results])
-        prompt = f"""You are a helpful assistant for the TDS course. Use the context below to answer the question clearly and concisely.
-        If the answer is unknown, say so. Do not make up URLs or facts.
+        prompt = f"""You are a helpful assistant for the TDS course. Use the context below to answer the question accurately and concisely.
+        Only use information from the context. If the context does not contain an answer, say "I don't know".
         Question: {req.question}
 
         Context:
         {context}
-        Return only an answer in plain text. Do not return JSON or markdown.
+        Answer in plain text (no markdown or JSON).
            """
 
         response = client.chat.completions.create(
